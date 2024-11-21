@@ -1,0 +1,141 @@
+   /* General Styles */
+   * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url('R.jpeg');
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: black;
+}
+
+/* Container */
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header */
+.header {
+    background-color: #2C3E50;
+    color: white;
+    text-align: center;
+    padding: 50px 0;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.header p {
+    font-size: 1.2rem;
+}
+
+nav {
+    position:absolute;
+    top: 0;
+    right: 0;
+}
+
+.nav_itm {
+    font-size: 10px;
+    width: auto;
+    color: white;
+    text-decoration: none;
+}
+
+/* Sections */
+.section {
+    padding: 50px 0;
+    text-align: center;
+}
+
+.section h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #2C3E50;
+}
+
+.section p, .section ul {
+    font-size: 1.1rem;
+    color: black;
+}
+
+/* Skills List */
+#skills ul {
+    list-style: none;
+    padding: 0;
+}
+
+#skills li {
+    margin: 10px 0;
+}
+
+/* Experience Items */
+.experience-item {
+    margin-bottom: 20px;
+}
+
+.experience-item h3 {
+    font-size: 1.5rem;
+    color: #34495E;
+}
+
+.experience-item p {
+    font-size: 1rem;
+    color: black;
+}
+
+/* Contact Links */
+#contact a {
+    color:blue;
+    text-decoration: none;
+}
+
+#contact a:hover {
+    text-decoration: underline;
+}
+
+/* Contact Form */
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
+  
+  .contact-form input,
+  .contact-form textarea,
+  .contact-form button {
+    padding: 10px;
+    font-size: 1rem;
+    
+  }
+  
+  .contact-form button {
+    background: #0073e6;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .contact-form button:hover {
+    background: #005bb5;
+  }
+
+/* Footer */
+.footer {
+    background-color: #2C3E50;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.footer p {
+    font-size: 1rem;
+}
