@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="music-player">
+        <h1>Web Music Player</h1>
+        <div class="playlist">
+            <ul id="songList"></ul>
+        </div>
+        <div class="controls">
+            <button id="prevBtn">⏮️</button>
+            <button id="playPauseBtn">▶️</button>
+            <button id="nextBtn">⏭️</button>
+            <input id="volumeSlider" type="range" min="0" max="1" step="0.1" value="1">
+        </div>
+        <div class="song-info">
+            <p id="currentSong">Select a song</p>
+            <progress id="progressBar" value="0" max="100"></progress>
+        </div>
+        <audio id="audioPlayer"></audio>
+    </div>
+
+    <script>
+        // Song Data
+        const songs = [
+            { title: "Don't Choose", artist: "Dvsn", duration: "3:41", src: "dvsn - Don't Choose (Official Audio).mp3", background: "url('R.jpeg')" },
+            { title: "Like I want You", artist: "Giveon", duration: "4:22", src: "Giveon - LIKE I WANT YOU (Audio).mp3", background: "url('OIP.jpeg')" },
+            { title: "Marvins Room", artist: "Drake", duration: "5:47", src: "Marvins Room.mp3", background: "url('maxresdefault.jpg')" }
+        ];
+
+        // DOM Elements
+        const songList = document.getElementById("songList");
+        const audioPlayer = document.getElementById("audioPlayer");
+        const playPauseBtn = document.getElementById("playPauseBtn");
+        const nextBtn = document.getElementById("nextBtn");
+        const prevBtn = document.getElementById("prevBtn");
+        const volumeSlider = document.getElementById("volumeSlider");
+        const currentSong = document.getElementById("currentSong");
+        const progressBar = document.getElementById("progressBar");
+
+        let currentSongIndex = 0;
+
+        // Load Playlist
+        function loadPlaylist() {
+            songs.forEach((song, index) => {
+                const li = document.createElement("li");
+                li.textContent = `${song.title} - ${song.artist}`;
+                li.setAttribute("data-index", index);
+                li.addEventListener("click", () => playSong(index));
+                songList.appendChild(li);
+            });
+        }
+
+        // Play Song
+        function playSong(index) {
+            currentSongIndex = index;
+            audioPlayer.src = songs[index].src;
+            currentSong.textContent = `${songs[index].title} by ${songs[index].artist}`;
+            document.body.style.backgroundImage = songs[index].background; // Set the background
+            audioPlayer.play();
+            updatePlayPauseButton();
+        }
+
+        // Toggle Play/Pause
+        function togglePlayPause() {
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+            } else {
+                audioPlayer.pause();
+            }
+            updatePlayPauseButton();
+        }
+
+        // Update Play/Pause Button
+        function updatePlayPauseButton() {
+            playPauseBtn.textContent = audioPlayer.paused ? "▶️" : "⏸️";
+        }
+
+        // Play Next Song
+        function playNext() {
+            currentSongIndex = (currentSongIndex + 1) % songs.length;
+            playSong(currentSongIndex);
+        }
+
+        // Play Previous Song
+        function playPrevious() {
+            currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+            playSong(currentSongIndex);
+        }
+
+        // Update Progress Bar
+        function updateProgressBar() {
+            progressBar.value = (audioPlayer.currentTime / audioPlayer.duration) * 100 || 0;
+        }
+
+        // Volume Control
+        volumeSlider.addEventListener("input", () => {
+            audioPlayer.volume = volumeSlider.value;
+        });
+
+        // Event Listeners
+        playPauseBtn.addEventListener("click", togglePlayPause);
+        nextBtn.addEventListener("click", playNext);
+        prevBtn.addEventListener("click", playPrevious);
+        audioPlayer.addEventListener("timeupdate", updateProgressBar);
+
+        // Initialize
+        loadPlaylist();
+    </script>
+
+</body>
+
+</html>
