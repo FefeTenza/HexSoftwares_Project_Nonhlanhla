@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Book Library</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<script>
+    // Sample data for books
+const books = [
+    { id: 1, title: "The Great Gatsby", author: "F. Scott Fitzgerald", category: "Fiction", imageUrl: "R.jpeg", isBorrowed: false },
+    { id: 2, title: "Sapiens: A Brief History of Humankind", author: "Yuval Noah Harari", category: "Non-Fiction", imageUrl: "OIP (2).jpeg", isBorrowed: false },
+    { id: 3, title: "A Brief History of Time", author: "Stephen Hawking", category: "Science", imageUrl: "R (1).jpeg", isBorrowed: false },
+    { id: 4, title: "The Silent Patient", author: "Alex Michaelides", category: "Mystery", imageUrl: "R (2).jpeg", isBorrowed: false },
+    // Add more books here
+];
+
+let borrowHistory = [];
+
+// Display all books
+function displayBooks(bookList) {
+    const bookListContainer = document.getElementById('book-list');
+    bookListContainer.innerHTML = '';
+    
+    bookList.forEach(book => {
+        const bookCard = document.createElement('div');
+        bookCard.classList.add('book-card');
+        
+        bookCard.innerHTML = `
+            <img src="${book.imageUrl}" alt="${book.title}">
+            <h3>${book.title}</h3>
+            <p>${book.author}</p>
+            <button class="borrow-btn" onclick="borrowBook(${book.id})">
+                ${book.isBorrowed ? 'Returned' : 'Borrow'}
+            </button>
+        `;
+        
+        bookListContainer.appendChild(bookCard);
+    });
+}
+
+// Borrow a book and track the history
+function borrowBook(bookId) {
+    const book = books.find(b => b.id === bookId);
+    if (!book.isBorrowed) {
+        book.isBorrowed = true;
+        const borrowDate = new Date().toLocaleDateString();
+        borrowHistory.push({ title: book.title, borrowDate });
+        displayBooks(books);
+        displayHistory();
+    }
+}
+
+// Filter books by category
+function filterByCategory(category) {
+    const filteredBooks = books.filter(book => book.category === category);
+    displayBooks(filteredBooks);
+}
+
+// Search books by title or author
+function searchBooks() {
+    const searchQuery = document.getElementById('search').value.toLowerCase();
+    const filteredBooks = books.filter(book => 
+        book.title.toLowerCase().includes(searchQuery) || 
+        book.author.toLowerCase().includes(searchQuery)
+    );
+    displayBooks(filteredBooks);
+}
+
+// Display borrowing history
+function displayHistory() {
+    const historyList = document.getElementById('history-list');
+    historyList.innerHTML = '';
+    
+    borrowHistory.forEach(entry => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `Borrowed "${entry.title}" on ${entry.borrowDate}`;
+        historyList.appendChild(listItem);
+    });
+}
+
+// Initialize the app by displaying all books
+displayBooks(books);
+
+</script>
+
+<body>
+    <div class="container">
+        <h1>Personal Book Library</h1>
+        
+        <!-- Search Bar -->
+        <div class="search-container">
+            <input type="text" id="search" placeholder="Search for books..." oninput="searchBooks()">
+        </div>
+        
+        <!-- Book Categories -->
+        <div class="categories-container">
+            <button onclick="filterByCategory('Fiction')">Fiction</button>
+            <button onclick="filterByCategory('Non-Fiction')">Non-Fiction</button>
+            <button onclick="filterByCategory('Science')">Science</button>
+            <button onclick="filterByCategory('Mystery')">Mystery</button>
+        </div>
+        
+        <!-- Book List -->
+        <div id="book-list">
+            <!-- Book Items will be dynamically loaded here -->
+        </div>
+        
+        <!-- Borrowing History Section -->
+        <h2>Borrowing History</h2>
+        <ul id="history-list">
+            <!-- Borrow History will be listed here -->
+        </ul>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
